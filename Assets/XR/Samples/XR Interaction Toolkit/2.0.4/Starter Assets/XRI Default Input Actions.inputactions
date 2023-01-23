@@ -580,7 +580,7 @@
                     "path": "<OculusTouchController>{LeftHand}/thumbstick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Generic XR Controller",
                     "action": "Thumstick Boat",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -1045,6 +1045,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Thumstick Boat",
+                    "type": "Value",
+                    "id": "e4d2074e-0a16-4c07-ba34-db38bd31a95d",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -1089,6 +1098,17 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Turn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a5f82a5c-b702-4b5c-915e-80ebbcc2e10c",
+                    "path": "<OculusTouchController>{RightHand}/thumbstick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Thumstick Boat",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
