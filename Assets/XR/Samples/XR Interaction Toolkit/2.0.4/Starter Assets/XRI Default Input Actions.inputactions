@@ -507,6 +507,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Thumstick Boat",
+                    "type": "Value",
+                    "id": "07d2dd6e-4ca3-4b71-8938-8437a18dbb60",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -562,6 +571,17 @@
                     "processors": "StickDeadzone",
                     "groups": "Continuous Move",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a9168f6f-b493-4bcf-a62d-d29d72d4c358",
+                    "path": "<OculusTouchController>{LeftHand}/thumbstick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Thumstick Boat",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
