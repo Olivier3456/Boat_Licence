@@ -6,11 +6,14 @@ using UnityEngine.InputSystem;
 public class ShipMovements : MonoBehaviour
 {
 
-    //   [SerializeField] float _power;
+    [SerializeField] float _power;
 
     [SerializeField] float _maxSpeed = 20f;
 
     [SerializeField] float _rotationSpeed = 10f;
+
+    [SerializeField] private float _directionInertia = 1f;
+    private float _directionStatus = 0f;
 
     [SerializeField] private InputActionReference _thumstickActionLeft;
     [SerializeField] private InputActionReference _thumstickActionRight;
@@ -23,9 +26,7 @@ public class ShipMovements : MonoBehaviour
 
     private float _waterFriction = 0.1f;
 
-    private float _directionInertia = 0.1f;
-    private float _directionStatus = 0f;
-
+   
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -43,10 +44,8 @@ public class ShipMovements : MonoBehaviour
 
         // Direction :
         float thumstickValX = _thumstickActionRight.action.ReadValue<Vector2>().x;
-        _directionStatus += thumstickValX * _directionInertia * Time.deltaTime;
-        if (_directionStatus > 1) _directionStatus = 1;
-        else if (_directionStatus < -1) _directionStatus = -1;
-        Direction(_directionStatus);
+     
+        Direction(thumstickValX);
 
         WaterFriction();
     }
@@ -63,30 +62,41 @@ public class ShipMovements : MonoBehaviour
 
     private void WaterFriction()
     {
-        //  _rb.velocity -= _waterFriction * _rb.velocity * Time.deltaTime;
-
-        _speed -= _waterFriction * _rb.velocity.magnitude * Time.deltaTime;
+        _rb.velocity -= _waterFriction * _rb.velocity * Time.deltaTime;        
     }
 
 
     public void Engine(float inputValue)
     {
-        _speed += inputValue / 50;
-
-        transform.Translate(transform.forward * _speed * Time.deltaTime);
-
         // Il faudra retirer le time.deltatime de Addforce, qui n'en a pas besoin.
-        //   _rb.AddForce(transform.forward * Time.deltaTime * inputValue * _power);
+        _rb.AddForce(transform.forward * Time.deltaTime * inputValue * _power);
     }
 
 
     public void Direction(float inputValue)
     {
-        float speedFactor = _speed;
+        
+        float speedFactor = _rb.velocity.magnitude * 0.5f;
         if (speedFactor > 3f) speedFactor = 3f;
-        else if (speedFactor < -3f) speedFactor = -3f;
+        
 
-        Vector3 rotation = new Vector3(0, inputValue * _rotationSpeed * Time.deltaTime * speedFactor, 0);
+        // Avec ces lignes ci-dessous, la direction reste statique si le joueur n'actionne pas le stick de la direction.
+        // (Je les ai écrites au départ pour introduire une inertie dans la direction.)
+        // Il serait possible de remettre la direction à zéro progressivement. Avec peut-être un booléen pour laisser choisir
+        // dans Unity si on veut qu'il y ait cette remise à zéro progressive ou non.
+        _directionStatus += inputValue * _directionInertia * Time.deltaTime;
+        if (_directionStatus > 1) _directionStatus = 1;
+        else if (_directionStatus < -1) _directionStatus = -1;
+
+
+        Vector3 rotation = new Vector3(0, _rotationSpeed * speedFactor * _directionStatus * Time.deltaTime, 0);
         transform.Rotate(rotation);
+
+
+        //float speedFactor = _rb.velocity.magnitude * 0.5f;
+        //if (speedFactor > 3f) speedFactor = 3f;
+
+        //Vector3 rotation = new Vector3(0, inputValue * _rotationSpeed * speedFactor * Time.deltaTime, 0);
+        //transform.Rotate(rotation);
     }
 }

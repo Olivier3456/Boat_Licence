@@ -3414,6 +3414,10 @@ PrefabInstance:
       propertyPath: m_InteractionManager
       value: 
       objectReference: {fileID: 1065180141}
+    - target: {fileID: 177928706, guid: 318b693f2ad858844bb36d1a4abd27a9, type: 3}
+      propertyPath: _rotationSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 344602882, guid: 318b693f2ad858844bb36d1a4abd27a9, type: 3}
       propertyPath: m_InteractionManager
       value: 
