@@ -24,7 +24,7 @@ public class ShipMovements : MonoBehaviour
 
     private AudioSource _audioSource;
 
-    private float _waterFriction = 0.1f;
+    private float _waterFriction = 0.15f;
 
    
     private void Start()
