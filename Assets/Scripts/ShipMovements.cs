@@ -8,7 +8,7 @@ public class ShipMovements : MonoBehaviour
 
     [SerializeField] float _power;
 
-    [SerializeField] float _maxSpeed = 20f;
+    [SerializeField] float _maxSpeed = 20.1f;
 
     [SerializeField] float _rotationSpeed = 10f;
 

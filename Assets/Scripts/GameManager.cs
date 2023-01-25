@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] TextMeshPro _errorText;
     [SerializeField] TextMeshPro _speedText;
+
+    [SerializeField] AudioSource _errorAudioSource;
+    
     public int ForbiddenZonesErrors = 0;
     [HideInInspector] public bool speeding;
 
@@ -40,7 +43,8 @@ public class GameManager : MonoBehaviour
     public void EnterForbiddenZone()
     {
         ForbiddenZonesErrors++;
-        _errorText.text = "You are in a forbidden zone!";        
+        _errorText.text = "You are in a forbidden zone!";
+        _errorAudioSource.Play();
     }
 
 
@@ -56,7 +60,9 @@ public class GameManager : MonoBehaviour
         {
             speeding = true;
             _errorText.text = "Speeding! The speed limit is 5 knots at 300m from the shore.";
+            if (!_errorAudioSource.isPlaying) _errorAudioSource.Play();
         }        
+        else EndSpeeding();
     }
 
     public void EndSpeeding()
