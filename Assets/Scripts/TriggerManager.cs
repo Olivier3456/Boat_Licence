@@ -7,6 +7,7 @@ public class TriggerManager : MonoBehaviour
 {
     [SerializeField] private UnityEvent _enterEvent;
     [SerializeField] private UnityEvent _exitEvent;
+    [SerializeField] private UnityEvent _stayEvent;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,5 +19,13 @@ public class TriggerManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             _exitEvent.Invoke();
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _stayEvent.Invoke();
+        }
     }
 }

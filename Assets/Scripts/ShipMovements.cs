@@ -18,9 +18,7 @@ public class ShipMovements : MonoBehaviour
     [SerializeField] private InputActionReference _thumstickActionLeft;
     [SerializeField] private InputActionReference _thumstickActionRight;
 
-    private Rigidbody _rb;
-
-    private float _speed;
+    [HideInInspector] public Rigidbody _rb;
 
     private AudioSource _audioSource;
 
