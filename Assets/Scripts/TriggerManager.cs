@@ -15,12 +15,6 @@ public class TriggerManager : MonoBehaviour
             _enterEvent.Invoke();
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-            _exitEvent.Invoke();
-    }
-
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -28,4 +22,10 @@ public class TriggerManager : MonoBehaviour
             _stayEvent.Invoke();
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+            _exitEvent.Invoke();
+    }    
 }

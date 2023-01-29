@@ -129,12 +129,8 @@ public class ShipMovements : MonoBehaviour
             _directionStatus += _directionInertia * Time.deltaTime;
 
 
-
-
-
         // Avec ces lignes ci-dessous, la direction reste statique si le joueur n'actionne pas le stick de la direction.
         // (Je les ai écrites au départ pour introduire une inertie dans la direction.)
-        // Il serait possible de remettre la direction à zéro progressivement. Voir Engine.
         //_directionStatus += inputValue * _directionInertia * Time.deltaTime;
         //if (_directionStatus > 1) _directionStatus = 1;
         //else if (_directionStatus < -1) _directionStatus = -1;

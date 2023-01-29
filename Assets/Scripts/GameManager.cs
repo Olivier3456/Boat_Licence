@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     private ShipMovements _zodiac;
 
+    private bool _errorSoundAlreadyPlayed;
+
     private void Start()
     {
         _zodiac = GameObject.Find("Zodiac").GetComponent<ShipMovements>();
@@ -60,7 +62,12 @@ public class GameManager : MonoBehaviour
         {
             speeding = true;
             _errorText.text = "Speeding! The speed limit is 5 knots at 300m from the shore.";
-            if (!_errorAudioSource.isPlaying) _errorAudioSource.Play();
+            if (!_errorSoundAlreadyPlayed)
+            {
+                _errorAudioSource.Play();
+                _errorSoundAlreadyPlayed = true;
+            }
+               
         }        
         else EndSpeeding();
     }
@@ -68,5 +75,6 @@ public class GameManager : MonoBehaviour
     public void EndSpeeding()
     {
         _errorText.text = "";
+        _errorSoundAlreadyPlayed = false;
     }
 }
