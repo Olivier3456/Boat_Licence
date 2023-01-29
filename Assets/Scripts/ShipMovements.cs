@@ -9,10 +9,12 @@ public class ShipMovements : MonoBehaviour
 
     [SerializeField] float _power;
     [SerializeField] float _maxSpeed = 20.1f;
+    [SerializeField] Slider _rpmSlider;
     [Space(10)]
     [SerializeField] float _rotationSpeed = 10f;
     [SerializeField] private float _directionInertia = 1f;
     [SerializeField] private Slider _directionSlider;
+    [SerializeField] private bool _directionFollowsStickValue;
     private float _directionStatus = 0f;
     [Space(10)]
     [SerializeField] private float _engineInertia = 1f;
@@ -29,14 +31,20 @@ public class ShipMovements : MonoBehaviour
     private float _waterFriction = 0.15f;
 
 
-    private void Start()
+    private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {       
         _audioSource = GetComponent<AudioSource>();
         _audioSource.volume = 0.5f;
 
         _directionSlider.maxValue = 1;
         _directionSlider.minValue = -1;
+        _rpmSlider.maxValue= 1;
+        _rpmSlider.minValue= -1;
     }
 
 
@@ -87,12 +95,14 @@ public class ShipMovements : MonoBehaviour
             if (_engineStatus > 1) _engineStatus = 1;
             else if (_engineStatus < -1) _engineStatus = -1;
         }
-        else if (_engineStatus > inputValue)    // Le régime moteur se cale en permanence sur l'input value du stick.
+        else if (_engineStatus > inputValue + 0.01f)    // Le régime moteur se cale en permanence sur l'input value du stick.
             _engineStatus -= _engineInertia * Time.deltaTime;
 
-        else if (_engineStatus < inputValue)    // Le régime moteur se cale en permanence sur l'input value du stick.
+        else if (_engineStatus < inputValue - 0.01f)    // Le régime moteur se cale en permanence sur l'input value du stick.
             _engineStatus += _engineInertia * Time.deltaTime;
 
+
+        _rpmSlider.value = _engineStatus;
 
         // Il faudra retirer le time.deltatime de Addforce, qui n'en a pas besoin. Et régler la variable _power en conséquence.
         _rb.AddForce(transform.forward * Time.deltaTime * _engineStatus * _power);
@@ -102,16 +112,32 @@ public class ShipMovements : MonoBehaviour
     public void Direction(float inputValue)
     {
 
-        float speedFactor = _rb.velocity.magnitude * 0.5f;
+        float speedFactor = _rb.velocity.magnitude * 0.5f;  // Le bateau tournera moins vite si sa vitesse est proche de zéro.
         if (speedFactor > 3f) speedFactor = 3f;
+
+
+        if (!_directionFollowsStickValue)       // La direction reste statique si le joueur n'actionne pas le stick.
+        {
+            _directionStatus += inputValue * _directionInertia * Time.deltaTime;
+            if (_directionStatus > 1) _directionStatus = 1;
+            else if (_directionStatus < -1) _directionStatus = -1;
+        }
+        else if (_directionStatus > inputValue + 0.01f)    // La direction se cale en permanence sur l'input value du stick.
+            _directionStatus -= _directionInertia * Time.deltaTime;
+
+        else if (_directionStatus < inputValue - 0.01f)    // La direction se cale en permanence sur l'input value du stick.
+            _directionStatus += _directionInertia * Time.deltaTime;
+
+
+
 
 
         // Avec ces lignes ci-dessous, la direction reste statique si le joueur n'actionne pas le stick de la direction.
         // (Je les ai écrites au départ pour introduire une inertie dans la direction.)
         // Il serait possible de remettre la direction à zéro progressivement. Voir Engine.
-        _directionStatus += inputValue * _directionInertia * Time.deltaTime;
-        if (_directionStatus > 1) _directionStatus = 1;
-        else if (_directionStatus < -1) _directionStatus = -1;
+        //_directionStatus += inputValue * _directionInertia * Time.deltaTime;
+        //if (_directionStatus > 1) _directionStatus = 1;
+        //else if (_directionStatus < -1) _directionStatus = -1;
 
 
         Vector3 rotation = new Vector3(0, _rotationSpeed * speedFactor * _directionStatus * Time.deltaTime, 0);
