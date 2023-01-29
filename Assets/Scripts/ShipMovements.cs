@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class ShipMovements : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class ShipMovements : MonoBehaviour
     [Space(10)]
     [SerializeField] float _rotationSpeed = 10f;
     [SerializeField] private float _directionInertia = 1f;
+    [SerializeField] private Slider _directionSlider;
     private float _directionStatus = 0f;
     [Space(10)]
     [SerializeField] private float _engineInertia = 1f;
@@ -32,6 +34,9 @@ public class ShipMovements : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _audioSource = GetComponent<AudioSource>();
         _audioSource.volume = 0.5f;
+
+        _directionSlider.maxValue = 1;
+        _directionSlider.minValue = -1;
     }
 
 
@@ -76,20 +81,20 @@ public class ShipMovements : MonoBehaviour
 
     public void Engine(float inputValue)
     {
-        if (!_engineRpmFollowsStickValue)
+        if (!_engineRpmFollowsStickValue)       // Le régime moteur reste statique si le joueur n'actionne pas le stick.
         {
             _engineStatus += inputValue * _engineInertia * Time.deltaTime;
             if (_engineStatus > 1) _engineStatus = 1;
             else if (_engineStatus < -1) _engineStatus = -1;
         }
-        else if (_engineStatus > inputValue)
+        else if (_engineStatus > inputValue)    // Le régime moteur se cale en permanence sur l'input value du stick.
             _engineStatus -= _engineInertia * Time.deltaTime;
 
-        else if (_engineStatus < inputValue)
+        else if (_engineStatus < inputValue)    // Le régime moteur se cale en permanence sur l'input value du stick.
             _engineStatus += _engineInertia * Time.deltaTime;
 
 
-        // Il faudra retirer le time.deltatime de Addforce, qui n'en a pas besoin.
+        // Il faudra retirer le time.deltatime de Addforce, qui n'en a pas besoin. Et régler la variable _power en conséquence.
         _rb.AddForce(transform.forward * Time.deltaTime * _engineStatus * _power);
     }
 
@@ -103,8 +108,7 @@ public class ShipMovements : MonoBehaviour
 
         // Avec ces lignes ci-dessous, la direction reste statique si le joueur n'actionne pas le stick de la direction.
         // (Je les ai écrites au départ pour introduire une inertie dans la direction.)
-        // Il serait possible de remettre la direction à zéro progressivement. Avec peut-être un booléen pour laisser choisir
-        // dans Unity si on veut qu'il y ait cette remise à zéro progressive ou non.
+        // Il serait possible de remettre la direction à zéro progressivement. Voir Engine.
         _directionStatus += inputValue * _directionInertia * Time.deltaTime;
         if (_directionStatus > 1) _directionStatus = 1;
         else if (_directionStatus < -1) _directionStatus = -1;
@@ -113,11 +117,6 @@ public class ShipMovements : MonoBehaviour
         Vector3 rotation = new Vector3(0, _rotationSpeed * speedFactor * _directionStatus * Time.deltaTime, 0);
         transform.Rotate(rotation);
 
-
-        //float speedFactor = _rb.velocity.magnitude * 0.5f;
-        //if (speedFactor > 3f) speedFactor = 3f;
-
-        //Vector3 rotation = new Vector3(0, inputValue * _rotationSpeed * speedFactor * Time.deltaTime, 0);
-        //transform.Rotate(rotation);
+        _directionSlider.value = _directionStatus;        
     }
 }
