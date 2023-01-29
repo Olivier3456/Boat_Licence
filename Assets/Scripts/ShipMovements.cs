@@ -14,6 +14,7 @@ public class ShipMovements : MonoBehaviour
     private float _directionStatus = 0f;
     [Space(10)]
     [SerializeField] private float _engineInertia = 1f;
+    [SerializeField] private bool _engineRpmFollowsStickValue;
     private float _engineStatus = 0f;
     [Space(10)]
     [SerializeField] private InputActionReference _thumstickActionLeft;
@@ -25,7 +26,7 @@ public class ShipMovements : MonoBehaviour
 
     private float _waterFriction = 0.15f;
 
-   
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -43,7 +44,7 @@ public class ShipMovements : MonoBehaviour
 
         // Direction :
         float thumstickValX = _thumstickActionRight.action.ReadValue<Vector2>().x;
-     
+
         Direction(thumstickValX);
 
         WaterFriction();
@@ -69,27 +70,36 @@ public class ShipMovements : MonoBehaviour
 
     private void WaterFriction()
     {
-        _rb.velocity -= _waterFriction * _rb.velocity * Time.deltaTime;        
+        _rb.velocity -= _waterFriction * _rb.velocity * Time.deltaTime;
     }
 
 
     public void Engine(float inputValue)
     {
-        _engineStatus += inputValue * _engineInertia * Time.deltaTime;
-        if (_engineStatus > 1) _engineStatus = 1;
-        else if (_engineStatus < -1) _engineStatus = -1;
+        if (!_engineRpmFollowsStickValue)
+        {
+            _engineStatus += inputValue * _engineInertia * Time.deltaTime;
+            if (_engineStatus > 1) _engineStatus = 1;
+            else if (_engineStatus < -1) _engineStatus = -1;
+        }
+        else if (_engineStatus > inputValue)
+            _engineStatus -= _engineInertia * Time.deltaTime;
+
+        else if (_engineStatus < inputValue)
+            _engineStatus += _engineInertia * Time.deltaTime;
+
 
         // Il faudra retirer le time.deltatime de Addforce, qui n'en a pas besoin.
-        _rb.AddForce(transform.forward * Time.deltaTime * _engineStatus * _power);        
+        _rb.AddForce(transform.forward * Time.deltaTime * _engineStatus * _power);
     }
 
 
     public void Direction(float inputValue)
     {
-        
+
         float speedFactor = _rb.velocity.magnitude * 0.5f;
         if (speedFactor > 3f) speedFactor = 3f;
-        
+
 
         // Avec ces lignes ci-dessous, la direction reste statique si le joueur n'actionne pas le stick de la direction.
         // (Je les ai écrites au départ pour introduire une inertie dans la direction.)
