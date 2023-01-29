@@ -5,11 +5,10 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class ShipMovements : MonoBehaviour
-{
-
+{   
     [SerializeField] float _power;
     [SerializeField] float _maxSpeed = 20.1f;
-    [SerializeField] Slider _rpmSlider;
+    [SerializeField] Slider _rpmSlider;    
     [Space(10)]
     [SerializeField] float _rotationSpeed = 10f;
     [SerializeField] private float _directionInertia = 1f;
@@ -37,14 +36,15 @@ public class ShipMovements : MonoBehaviour
     }
 
     private void Start()
-    {       
+    {      
         _audioSource = GetComponent<AudioSource>();
         _audioSource.volume = 0.5f;
 
         _directionSlider.maxValue = 1;
         _directionSlider.minValue = -1;
-        _rpmSlider.maxValue= 1;
-        _rpmSlider.minValue= -1;
+        _rpmSlider.maxValue = 1;
+        _rpmSlider.minValue = -1;
+        
     }
 
 
@@ -64,15 +64,7 @@ public class ShipMovements : MonoBehaviour
     }
 
     private void EngineSound(float thumstickVal)
-    {
-        //if (thumstickVal > 0.5f) _audioSource.volume = thumstickVal;
-        //else if (thumstickVal < -0.5f) _audioSource.volume = -thumstickVal;
-        //else _audioSource.volume = 0.5f;
-
-        //if (thumstickVal > 0f) _audioSource.pitch = 1 + thumstickVal * 0.75f;
-        //else _audioSource.pitch = 1 - thumstickVal * 0.75f;
-
-
+    {        
         if (_engineStatus > 0.5f) _audioSource.volume = _engineStatus;
         else if (_engineStatus < -0.5f) _audioSource.volume = -_engineStatus;
         else _audioSource.volume = 0.5f;
@@ -85,8 +77,7 @@ public class ShipMovements : MonoBehaviour
     {
         _rb.velocity -= _waterFriction * _rb.velocity * Time.deltaTime;
     }
-
-
+    
     public void Engine(float inputValue)
     {
         if (!_engineRpmFollowsStickValue)       // Le régime moteur reste statique si le joueur n'actionne pas le stick.
@@ -127,18 +118,16 @@ public class ShipMovements : MonoBehaviour
 
         else if (_directionStatus < inputValue - 0.01f)    // La direction se cale en permanence sur l'input value du stick.
             _directionStatus += _directionInertia * Time.deltaTime;
-
-
-        // Avec ces lignes ci-dessous, la direction reste statique si le joueur n'actionne pas le stick de la direction.
-        // (Je les ai écrites au départ pour introduire une inertie dans la direction.)
-        //_directionStatus += inputValue * _directionInertia * Time.deltaTime;
-        //if (_directionStatus > 1) _directionStatus = 1;
-        //else if (_directionStatus < -1) _directionStatus = -1;
-
+        
 
         Vector3 rotation = new Vector3(0, _rotationSpeed * speedFactor * _directionStatus * Time.deltaTime, 0);
         transform.Rotate(rotation);
 
-        _directionSlider.value = _directionStatus;        
+        _directionSlider.value = _directionStatus;
+    }
+
+    public float GetEngineStatus()
+    {
+        return _engineStatus;
     }
 }

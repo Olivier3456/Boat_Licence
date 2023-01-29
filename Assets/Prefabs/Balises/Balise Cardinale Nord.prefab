@@ -4509,7 +4509,7 @@ MonoBehaviour:
   rotationFrequencyY: 0.95
   rotationAmplitudeZ: 3
   rotationFrequencyZ: 0.8
-  _parentObject: {fileID: 3250040653165052354}
+  _shipGameObject: {fileID: 3250040653165052354}
 --- !u!114 &7175078821235974923
 MonoBehaviour:
   m_ObjectHideFlags: 0

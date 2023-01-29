@@ -24,23 +24,23 @@ public class SinusoidalMovement : MonoBehaviour
     public float rotationAmplitudeZ = 30;
     public float rotationFrequencyZ = 1;
 
-    [SerializeField] private Transform _parentObject;
+    [SerializeField] private Transform _shipGameObject;
 
        
     void Update()
     {
         // Calcule la nouvelle position de l'objet en utilisant une formule de mouvement sinusoïdal
-        float newX = _parentObject.position.x + amplitudeMovementX * Mathf.Sin(Time.time * frequencyMovementX) * 0.05f;
-        float newY = _parentObject.position.y + amplitudeMovementY * Mathf.Sin(Time.time * frequencyMovementY) * 0.05f;
-        float newZ = _parentObject.position.z + amplitudeMovementZ * Mathf.Sin(Time.time * frequencyMovementZ) * 0.05f;
+        float newX = _shipGameObject.position.x + amplitudeMovementX * Mathf.Sin(Time.time * frequencyMovementX) * 0.05f;
+        float newY = _shipGameObject.position.y + amplitudeMovementY * Mathf.Sin(Time.time * frequencyMovementY) * 0.05f;
+        float newZ = _shipGameObject.position.z + amplitudeMovementZ * Mathf.Sin(Time.time * frequencyMovementZ) * 0.05f;
 
         transform.position = new Vector3(newX, newY, newZ);
 
 
         // Calcule la nouvelle rotation de l'objet en utilisant une formule de mouvement sinusoïdal
-        float newRotationZ = _parentObject.rotation.z + rotationAmplitudeZ * Mathf.Sin(Time.time * rotationFrequencyZ);
-        float newRotationY = _parentObject.rotation.y + rotationAmplitudeY * Mathf.Sin(Time.time * rotationFrequencyY);
-        float newRotationX = _parentObject.rotation.x + rotationAmplitudeX * Mathf.Sin(Time.time * rotationFrequencyX);
+        float newRotationZ = _shipGameObject.rotation.z + rotationAmplitudeZ * Mathf.Sin(Time.time * rotationFrequencyZ);
+        float newRotationY = _shipGameObject.rotation.y + rotationAmplitudeY * Mathf.Sin(Time.time * rotationFrequencyY);
+        float newRotationX = _shipGameObject.rotation.x + rotationAmplitudeX * Mathf.Sin(Time.time * rotationFrequencyX);
 
         transform.localEulerAngles = new Vector3(newRotationX, newRotationY, newRotationZ);
     }
