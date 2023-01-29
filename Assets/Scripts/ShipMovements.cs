@@ -7,14 +7,15 @@ public class ShipMovements : MonoBehaviour
 {
 
     [SerializeField] float _power;
-
     [SerializeField] float _maxSpeed = 20.1f;
-
+    [Space(10)]
     [SerializeField] float _rotationSpeed = 10f;
-
     [SerializeField] private float _directionInertia = 1f;
     private float _directionStatus = 0f;
-
+    [Space(10)]
+    [SerializeField] private float _engineInertia = 1f;
+    private float _engineStatus = 0f;
+    [Space(10)]
     [SerializeField] private InputActionReference _thumstickActionLeft;
     [SerializeField] private InputActionReference _thumstickActionRight;
 
@@ -50,12 +51,20 @@ public class ShipMovements : MonoBehaviour
 
     private void EngineSound(float thumstickVal)
     {
-        if (thumstickVal > 0.5f) _audioSource.volume = thumstickVal;
-        else if (thumstickVal < -0.5f) _audioSource.volume = -thumstickVal;
+        //if (thumstickVal > 0.5f) _audioSource.volume = thumstickVal;
+        //else if (thumstickVal < -0.5f) _audioSource.volume = -thumstickVal;
+        //else _audioSource.volume = 0.5f;
+
+        //if (thumstickVal > 0f) _audioSource.pitch = 1 + thumstickVal * 0.75f;
+        //else _audioSource.pitch = 1 - thumstickVal * 0.75f;
+
+
+        if (_engineStatus > 0.5f) _audioSource.volume = _engineStatus;
+        else if (_engineStatus < -0.5f) _audioSource.volume = -_engineStatus;
         else _audioSource.volume = 0.5f;
 
-        if (thumstickVal > 0f) _audioSource.pitch = 1 + thumstickVal * 0.75f;
-        else _audioSource.pitch = 1 - thumstickVal * 0.75f;
+        if (_engineStatus > 0f) _audioSource.pitch = 1 + _engineStatus * 0.75f;
+        else _audioSource.pitch = 1 - _engineStatus * 0.75f;
     }
 
     private void WaterFriction()
@@ -66,8 +75,12 @@ public class ShipMovements : MonoBehaviour
 
     public void Engine(float inputValue)
     {
+        _engineStatus += inputValue * _engineInertia * Time.deltaTime;
+        if (_engineStatus > 1) _engineStatus = 1;
+        else if (_engineStatus < -1) _engineStatus = -1;
+
         // Il faudra retirer le time.deltatime de Addforce, qui n'en a pas besoin.
-        _rb.AddForce(transform.forward * Time.deltaTime * inputValue * _power);
+        _rb.AddForce(transform.forward * Time.deltaTime * _engineStatus * _power);        
     }
 
 
