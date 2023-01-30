@@ -97,6 +97,8 @@ Material:
     - _GroundNormal1Strengh: 2
     - _GroundNormal2Strengh: 2
     - _Metallic: 0.075
+    - _QueueControl: 0
+    - _QueueOffset: 0
     - _Smoothness: 0.153
     - _Tilling: 1
     m_Colors: []

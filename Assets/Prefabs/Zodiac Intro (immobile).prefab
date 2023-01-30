@@ -872,7 +872,7 @@ MonoBehaviour:
   rotationFrequencyY: 0.85
   rotationAmplitudeZ: 3
   rotationFrequencyZ: 0.8
-  _parentObject: {fileID: 2264322426564477754}
+  _shipGameObject: {fileID: 0}
 --- !u!1 &3491734751928942982
 GameObject:
   m_ObjectHideFlags: 0
@@ -3040,7 +3040,7 @@ MonoBehaviour:
   rotationFrequencyY: 1
   rotationAmplitudeZ: 3
   rotationFrequencyZ: 0.8
-  _parentObject: {fileID: 0}
+  _shipGameObject: {fileID: 0}
 --- !u!114 &6536835290308620111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4180,6 +4180,9 @@ MonoBehaviour:
   _speedingText: {fileID: 0}
   _finalSentenceText: {fileID: 6536835290300750630}
   _gameManager: {fileID: 0}
+  _endSoundAudioSource: {fileID: 0}
+  _victoryAudioClip: {fileID: 0}
+  _failAudioClip: {fileID: 0}
 --- !u!1 &6536835291383018689
 GameObject:
   m_ObjectHideFlags: 0
@@ -5435,8 +5438,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _power: 100000
   _maxSpeed: 20
+  _rpmSlider: {fileID: 0}
   _rotationSpeed: 10
   _directionInertia: 1
+  _directionSlider: {fileID: 0}
+  _directionFollowsStickValue: 0
+  _engineInertia: 1
+  _engineRpmFollowsStickValue: 0
   _thumstickActionLeft: {fileID: -3566237799996035528, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
   _thumstickActionRight: {fileID: 208072552348513972, guid: c348712bda248c246b8c49b3db54643f,

@@ -33,6 +33,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: 11154d936b05e66498f68fa178c5cfbb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _FistNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_a7c025c2aba147adbdae5627d7dffcc2_Out_0:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -59,14 +67,23 @@ Material:
     - Vector1_6f56a0970372485390c6587863c2374e: 0
     - Vector1_7273530c27a34c9f8ee5723b84f96baa: 0.25
     - Vector1_dada42ebfac44076897b6de67441ba32: 0.3
+    - _Depth: 0
+    - _Displacement: 0.15
+    - _Metallic: 0
+    - _NormalStrengh: 1
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Smoothness: 0.5
+    - _Strenght: 0.5
+    - _Tilling: 1
     m_Colors:
     - Color_36218622185947c6a5ae36366d8e21d8: {r: 0.15218925, g: 0.20937225, b: 0.3396225,
         a: 0.9607843}
     - Color_93e06cd551a5449091bcde90b46765a0: {r: 0, g: 0.50980395, b: 0.42002845,
         a: 0.19607843}
     - Vector2_4351ac2be1d74054986ec5378db9d578: {r: 100, g: 100, b: 0, a: 0}
+    - _FistColor: {r: 0, g: 0.32156855, b: 0.6431373, a: 0.3764706}
+    - _SecondColor: {r: 0.43921566, g: 0.7764706, b: 0.8666667, a: 0.4627451}
   m_BuildTextureStacks: []
 --- !u!114 &7189708442607215928
 MonoBehaviour:

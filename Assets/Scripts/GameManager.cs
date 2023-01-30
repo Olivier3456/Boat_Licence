@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] TextMeshPro _errorText;
     [SerializeField] TextMeshPro _speedText;
+    [SerializeField] GameObject _errorPanel;
 
     [SerializeField] AudioSource _errorAudioSource;
     
@@ -45,14 +46,16 @@ public class GameManager : MonoBehaviour
     public void EnterForbiddenZone()
     {
         ForbiddenZonesErrors++;
-        _errorText.text = "You are in a forbidden zone!";
+        _errorText.text = "You are in a forbidden zone!";        
+        _errorPanel.SetActive(true);
         _errorAudioSource.Play();
     }
 
 
     public void ExitForbiddenZone()
     {
-        _errorText.text = "";       
+        _errorText.text = "";
+        _errorPanel.SetActive(false);
     }
 
 
@@ -61,11 +64,13 @@ public class GameManager : MonoBehaviour
         if (_zodiac._rb.velocity.magnitude > 5)
         {
             speeding = true;
-            _errorText.text = "Speeding! The speed limit is 5 knots at 300m from the shore.";
+            _errorText.text = "Speeding! Slow down.";
+            _errorPanel.SetActive(true);
             if (!_errorSoundAlreadyPlayed)
             {
                 _errorAudioSource.Play();
                 _errorSoundAlreadyPlayed = true;
+                _errorPanel.SetActive(true);
             }
                
         }        
@@ -76,5 +81,6 @@ public class GameManager : MonoBehaviour
     {
         _errorText.text = "";
         _errorSoundAlreadyPlayed = false;
+        _errorPanel.SetActive(false);
     }
 }
