@@ -8,7 +8,7 @@ public class RotateWithRpm : MonoBehaviour
 
     //  private float _accelRotationSmooth = 1f;
     //   private float _accelRotationTiltAngle = 30.0f;
-    float maxAngle = 22f;
+    float maxAngle = 90f;
 
     float targetOrientationX = 0f;
     float diffActuAndTgtRot = 0f;
@@ -34,8 +34,8 @@ public class RotateWithRpm : MonoBehaviour
 
         _engineStatus = _ship.GetEngineStatus();
         if (_engineStatus > 0.9f) _engineStatus = 0.9f;            // Evite les légers soubressauts quand l'input du stick est à son maximum.
-     //   else if (_engineStatus < -0.2f) _engineStatus = -0.2f;    // Le bateau se cabrera moins en marche arrière.
-     //   if (_engineStatus < 0.01f && _engineStatus > -0.01f) _engineStatus = 0.01f; // Evite que la valeur soit strictement égale à zéro.
+                                                                   //   else if (_engineStatus < -0.2f) _engineStatus = -0.2f;    // Le bateau se cabrera moins en marche arrière.
+                                                                   //   if (_engineStatus < 0.01f && _engineStatus > -0.01f) _engineStatus = 0.01f; // Evite que la valeur soit strictement égale à zéro.
 
 
 
@@ -74,15 +74,11 @@ public class RotateWithRpm : MonoBehaviour
         //transform.localEulerAngles = new Vector3(rotateToward.x, _shipGameObject.rotation.y, _shipGameObject.rotation.z);
 
 
-
-
-        targetOrientationX = _shipGameObject.rotation.x + (maxAngle * _engineStatus);
-        diffActuAndTgtRot = (targetOrientationX - transform.rotation.x);
-        newRotationX = transform.rotation.x + diffActuAndTgtRot / maxAngle;
+        targetOrientationX = _shipGameObject.rotation.x + (maxAngle * -_engineStatus);
+        diffActuAndTgtRot = targetOrientationX - transform.rotation.x;
+        newRotationX = transform.rotation.x + diffActuAndTgtRot * 0.05f;
         Debug.Log("targetOrientationX : " + targetOrientationX + " ; diffActuAndTgtRot : " + diffActuAndTgtRot + " ; newRotationX : " + newRotationX);
         transform.localEulerAngles = new Vector3(newRotationX, _shipGameObject.rotation.y, _shipGameObject.rotation.z);
-
-        
 
 
 
